@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/Atlas.Contracts/Atlas.Contracts.csproj" />
+    <Project Path="src/BuildingBlocks/Atlas.Kit.Api/Atlas.Kit.Api.csproj" />
+    <Project Path="src/BuildingBlocks/Atlas.Kit.Application/Atlas.Kit.Application.csproj" />
+    <Project Path="src/BuildingBlocks/Atlas.Kit.Domain/Atlas.Kit.Domain.csproj" />
+    <Project Path="src/BuildingBlocks/Atlas.Kit.Infrastructure/Atlas.Kit.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Gateway/">
+    <Project Path="src/Gateway/Atlas.Gateway/Atlas.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/Forum/">
+    <Project Path="src/Services/Forum/Atlas.Forum.Api/Atlas.Forum.Api.csproj" />
+    <Project Path="src/Services/Forum/Atlas.Forum.Application/Atlas.Forum.Application.csproj" />
+    <Project Path="src/Services/Forum/Atlas.Forum.Domain/Atlas.Forum.Domain.csproj" />
+    <Project Path="src/Services/Forum/Atlas.Forum.Infrastructure/Atlas.Forum.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/Map/">
+    <Project Path="src/Services/Map/Atlas.Map.Api/Atlas.Map.Api.csproj" />
+    <Project Path="src/Services/Map/Atlas.Map.Application/Atlas.Map.Application.csproj" />
+    <Project Path="src/Services/Map/Atlas.Map.Domain/Atlas.Map.Domain.csproj" />
+    <Project Path="src/Services/Map/Atlas.Map.Infrastructure/Atlas.Map.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/Users/">
+    <Project Path="src/Services/Users/Atlas.Users.Api/Atlas.Users.Api.csproj" />
+    <Project Path="src/Services/Users/Atlas.Users.Application/Atlas.Users.Application.csproj" />
+    <Project Path="src/Services/Users/Atlas.Users.Domain/Atlas.Users.Domain.csproj" />
+    <Project Path="src/Services/Users/Atlas.Users.Infrastructure/Atlas.Users.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Atlas.Forum.Domain.Tests/Atlas.Forum.Domain.Tests.csproj" />
+    <Project Path="tests/Atlas.Map.Domain.Tests/Atlas.Map.Domain.Tests.csproj" />
+    <Project Path="tests/Atlas.Users.Domain.Tests/Atlas.Users.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

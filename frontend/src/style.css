@@ -1,0 +1,66 @@
+:root {
+  --forest: #2f5d3a;
+  --forest-dark: #1f3f27;
+  --moss: #6b8f47;
+  --cap: #8d5524;
+  --cream: #faf6ee;
+  --paper: #ffffff;
+  --ink: #23201c;
+  --muted: #6f6a62;
+  --line: #e6dfd2;
+  --danger: #c62828;
+  --radius: 10px;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+a { color: var(--forest); }
+h1, h2, h3 { margin: 0 0 0.5rem; line-height: 1.2; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 1000;
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 0.6rem 1.25rem;
+  background: var(--forest-dark); color: #fff;
+}
+.topbar a { color: #e8efe2; text-decoration: none; }
+.topbar nav { display: flex; gap: 1rem; flex: 1; }
+.topbar nav a.router-link-active { color: #fff; font-weight: 600; border-bottom: 2px solid #c8e6a0; }
+.brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; }
+.account { display: flex; align-items: center; gap: 0.75rem; }
+.account .muted { color: #c9d6c0; }
+
+main { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; }
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.muted { color: var(--muted); }
+.small-text { font-size: 0.85rem; }
+.error { color: var(--danger); }
+.badge { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.75rem; background: #eef3e8; color: var(--forest); }
+
+button, .button {
+  display: inline-block; border: 0; border-radius: 8px; cursor: pointer;
+  padding: 0.55rem 1rem; font: inherit; font-weight: 600; text-decoration: none;
+  background: var(--forest); color: #fff !important;
+}
+button:hover, .button:hover { background: var(--forest-dark); }
+button:disabled { opacity: 0.6; cursor: default; }
+button.secondary { background: #e9e3d6; color: var(--ink) !important; }
+button.link { background: none; padding: 0; color: #e8efe2 !important; font-weight: 400; }
+.button.small { padding: 0.35rem 0.8rem; font-size: 0.9rem; }
+
+label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
+input, select, textarea {
+  display: block; width: 100%; margin-top: 0.25rem; padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line); border-radius: 8px; font: inherit; background: #fff;
+}
+textarea { min-height: 90px; resize: vertical; }
+
+@media (max-width: 700px) {
+  .topbar { flex-wrap: wrap; gap: 0.5rem 1rem; }
+  .topbar nav { order: 3; width: 100%; }
+}

@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.venv/
+**/__pycache__/
+.git/
+.idea/
+.vs/
+.env

@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Atlas.Forum.Domain\Atlas.Forum.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Atlas.Kit.Application\Atlas.Kit.Application.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Atlas.Contracts\Atlas.Contracts.csproj" />
+  </ItemGroup>
+</Project>

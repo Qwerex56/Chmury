@@ -1,0 +1,106 @@
+name: atlas-grzybow
+
+x-dotnet-env: &dotnet-env
+  ASPNETCORE_ENVIRONMENT: Production
+  Jwt__SigningKey: ${JWT_SIGNING_KEY:-dev-only-signing-key-change-me-0123456789abcdef}
+  RabbitMq__Host: rabbitmq
+  RabbitMq__Username: atlas
+  RabbitMq__Password: ${RABBITMQ_PASSWORD:-atlas}
+
+x-dotnet-depends: &dotnet-depends
+  postgres:
+    condition: service_healthy
+  rabbitmq:
+    condition: service_healthy
+
+services:
+  # ---------- infrastruktura ----------
+  postgres:
+    image: postgis/postgis:17-3.5
+    environment:
+      POSTGRES_USER: atlas
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-atlas}
+      POSTGRES_DB: atlas
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlas -d atlas"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    environment:
+      RABBITMQ_DEFAULT_USER: atlas
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-atlas}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  # ---------- serwisy ----------
+  users-api:
+    build: { context: ., dockerfile: src/Services/Users/Dockerfile }
+    environment:
+      <<: *dotnet-env
+      ConnectionStrings__Users: Host=postgres;Database=atlas_users;Username=atlas;Password=${POSTGRES_PASSWORD:-atlas}
+    depends_on: *dotnet-depends
+
+  forum-api:
+    build: { context: ., dockerfile: src/Services/Forum/Dockerfile }
+    environment:
+      <<: *dotnet-env
+      ConnectionStrings__Forum: Host=postgres;Database=atlas_forum;Username=atlas;Password=${POSTGRES_PASSWORD:-atlas}
+    depends_on: *dotnet-depends
+
+  map-api:
+    build: { context: ., dockerfile: src/Services/Map/Dockerfile }
+    environment:
+      <<: *dotnet-env
+      ConnectionStrings__Map: Host=postgres;Database=atlas_map;Username=atlas;Password=${POSTGRES_PASSWORD:-atlas}
+    depends_on: *dotnet-depends
+
+  prediction-api:
+    build: ./src/Services/Prediction
+
+  # ---------- wejście ----------
+  frontend:
+    build: ./frontend
+
+  gateway:
+    build: { context: ., dockerfile: src/Gateway/Dockerfile }
+    environment:
+      ReverseProxy__Clusters__users__Destinations__d1__Address: http://users-api:8080/
+      ReverseProxy__Clusters__forum__Destinations__d1__Address: http://forum-api:8080/
+      ReverseProxy__Clusters__map__Destinations__d1__Address: http://map-api:8080/
+      ReverseProxy__Clusters__prediction__Destinations__d1__Address: http://prediction-api:8080/
+      ReverseProxy__Clusters__frontend__Destinations__d1__Address: http://frontend:80/
+    ports:
+      - "8080:8080"
+    depends_on:
+      - users-api
+      - forum-api
+      - map-api
+      - prediction-api
+      - frontend
+
+  # Publiczny dostęp przez Cloudflare Tunnel: docker compose --profile tunnel up -d
+  # W panelu Cloudflare ustaw public hostname atlas.home-apps.dev → http://gateway:8080
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    depends_on:
+      - gateway
+    profiles: ["tunnel"]
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

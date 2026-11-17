@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\Atlas.Forum.Infrastructure\Atlas.Forum.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Atlas.Kit.Api\Atlas.Kit.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+  </ItemGroup>
+</Project>
